@@ -1,6 +1,5 @@
 package main.java.optica.model;
 
-
 public class DescuentoResponse {
 
     private String id;
