@@ -1,92 +1,86 @@
-package main.java.optica.model;
+package main.java.optica.soporte;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import main.java.optica.model.Auditoria;
 
-public class Auditoria {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
-    private final String id;
-    private final String usuario;
-    private final String operacion;
+/**
+ * Patrón de diseño SINGLETON.
+ * Mantiene una única instancia de la bitácora de auditoría del sistema,
+ * almacenando de forma centralizada todos los registros de Auditoria.
+ */
+public class BitacoraSistema {
 
-    // Ej.: "Pacientes", "Recetas", "Inventario",
-    // "Pedidos", "Ventas", "Pagos"
-    private final String modulo;
+    private static BitacoraSistema instancia;   // Única instancia
+    private final List<Auditoria> registros;
 
-    private final LocalDateTime fechaHora;
-
-    public Auditoria(
-            String id,
-            String usuario,
-            String operacion,
-            String modulo
-    ) {
-        this.id = validarTexto(id, "identificador");
-        this.usuario = validarTexto(usuario, "usuario");
-        this.operacion = validarTexto(operacion, "operación");
-        this.modulo = validarTexto(modulo, "módulo");
-        this.fechaHora = LocalDateTime.now();
+    private BitacoraSistema() {                  // Constructor privado
+        registros = new ArrayList<>();
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public String getOperacion() {
-        return operacion;
-    }
-
-    public String getModulo() {
-        return modulo;
-    }
-
-    public LocalDateTime getFechaHora() {
-        return fechaHora;
-    }
-
-    public boolean perteneceAlModulo(String moduloBuscado) {
-        if (moduloBuscado == null || moduloBuscado.isBlank()) {
-            return false;
+    public static synchronized BitacoraSistema getInstancia() {
+        if (instancia == null) {
+            instancia = new BitacoraSistema();
         }
-
-        return modulo.equalsIgnoreCase(moduloBuscado.trim());
+        return instancia;
     }
 
-    public boolean fueRealizadaPor(String usuarioBuscado) {
-        if (usuarioBuscado == null || usuarioBuscado.isBlank()) {
-            return false;
-        }
-
-        return usuario.equalsIgnoreCase(usuarioBuscado.trim());
-    }
-
-    public String obtenerFechaHoraFormateada() {
-        DateTimeFormatter formato =
-                DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-
-        return fechaHora.format(formato);
-    }
-
-    private String validarTexto(String valor, String campo) {
-        if (valor == null || valor.isBlank()) {
+    public void registrar(Auditoria auditoria) {
+        if (auditoria == null) {
             throw new IllegalArgumentException(
-                    "El campo " + campo + " es obligatorio."
+                    "La auditoría a registrar no puede ser nula."
             );
         }
-
-        return valor.trim();
+        registros.add(auditoria);
     }
 
-    @Override
-    public String toString() {
-        return "[" + obtenerFechaHoraFormateada() + "]"
-                + " | Módulo: " + modulo
-                + " | Usuario: " + usuario
-                + " | Acción: " + operacion;
+    public List<Auditoria> obtenerRegistros() {
+        return new ArrayList<>(registros); // Copia defensiva
+    }
+
+    public List<Auditoria> buscarPorModulo(String modulo) {
+        if (modulo == null || modulo.isBlank()) {
+            throw new IllegalArgumentException(
+                    "El módulo a buscar es obligatorio."
+            );
+        }
+        return registros.stream()
+                .filter(a -> a.perteneceAlModulo(modulo))
+                .collect(Collectors.toList());
+    }
+
+    public List<Auditoria> buscarPorUsuario(String usuario) {
+        if (usuario == null || usuario.isBlank()) {
+            throw new IllegalArgumentException(
+                    "El usuario a buscar es obligatorio."
+            );
+        }
+        return registros.stream()
+                .filter(a -> a.fueRealizadaPor(usuario))
+                .collect(Collectors.toList());
+    }
+
+    public int obtenerCantidadRegistros() {
+        return registros.size();
+    }
+
+    public boolean tieneRegistros() {
+        return !registros.isEmpty();
+    }
+
+    public void limpiar() {
+        registros.clear();
+    }
+
+    public void imprimirHistorial() {
+        if (registros.isEmpty()) {
+            System.out.println("No hay registros de auditoría.");
+            return;
+        }
+        for (Auditoria a : registros) {
+            System.out.println(a);
+        }
     }
 }
-

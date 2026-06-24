@@ -1,33 +1,34 @@
 package main.java.optica.model;
 
-import java.io.Serializable;
-
-
-public class DoctorDTO implements Serializable {
-    private static final long serialVersionUID = 1L;
+/**
+ * DTO (Data Transfer Object) del Optometrista.
+ * Transporta los datos del optometrista entre capas sin exponer la entidad.
+ */
+public class OptometristaDTO {
 
     private String id;
     private String nombre;
     private String apellido;
-    private String especialidad;
-    private String nroColegiatura;
+    private String areaAtencion;
+    private String numeroRegistroProfesional;
     private boolean disponible;
 
-    // Constructor vacío obligatorio
-    public DoctorDTO() {
-    }
-
-    // Constructor completo
-    public DoctorDTO(String id, String nombre, String apellido, String especialidad, String nroColegiatura, boolean disponible) {
+    public OptometristaDTO(
+            String id,
+            String nombre,
+            String apellido,
+            String areaAtencion,
+            String numeroRegistroProfesional,
+            boolean disponible
+    ) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.especialidad = especialidad;
-        this.nroColegiatura = nroColegiatura;
+        this.areaAtencion = areaAtencion;
+        this.numeroRegistroProfesional = numeroRegistroProfesional;
         this.disponible = disponible;
     }
 
-    // Getters y Setters
     public String getId() {
         return id;
     }
@@ -52,20 +53,20 @@ public class DoctorDTO implements Serializable {
         this.apellido = apellido;
     }
 
-    public String getEspecialidad() {
-        return especialidad;
+    public String getAreaAtencion() {
+        return areaAtencion;
     }
 
-    public void setEspecialidad(String especialidad) {
-        this.especialidad = especialidad;
+    public void setAreaAtencion(String areaAtencion) {
+        this.areaAtencion = areaAtencion;
     }
 
-    public String getNroColegiatura() {
-        return nroColegiatura;
+    public String getNumeroRegistroProfesional() {
+        return numeroRegistroProfesional;
     }
 
-    public void setNroColegiatura(String nroColegiatura) {
-        this.nroColegiatura = nroColegiatura;
+    public void setNumeroRegistroProfesional(String numeroRegistroProfesional) {
+        this.numeroRegistroProfesional = numeroRegistroProfesional;
     }
 
     public boolean isDisponible() {
@@ -74,17 +75,5 @@ public class DoctorDTO implements Serializable {
 
     public void setDisponible(boolean disponible) {
         this.disponible = disponible;
-    }
-
-    @Override
-    public String toString() {
-        return "DoctorDTO{" +
-                "id='" + id + '\'' +
-                ", nombre='" + nombre + '\'' +
-                ", apellido='" + apellido + '\'' +
-                ", especialidad='" + especialidad + '\'' +
-                ", nroColegiatura='" + nroColegiatura + '\'' +
-                ", disponible=" + disponible +
-                '}';
     }
 }
