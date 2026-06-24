@@ -1,4 +1,3 @@
-```java
 package main.java.optica.model;
 
 /**
