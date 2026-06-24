@@ -3,32 +3,37 @@ package main.java.optica.model;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+public class CitaOptometricaDTO implements Serializable {
 
-public class CitaDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String id;
     private String pacienteId;
-    private String doctorId;
+    private String optometristaId;
     private LocalDateTime fechaHora;
     private String motivo;
     private String estado;
 
-    // Constructor vacío obligatorio
-    public CitaDTO() {
+    // Constructor vacío necesario para serialización
+    public CitaOptometricaDTO() {
     }
 
-    // Constructor completo
-    public CitaDTO(String id, String pacienteId, String doctorId, LocalDateTime fechaHora, String motivo, String estado) {
+    public CitaOptometricaDTO(
+            String id,
+            String pacienteId,
+            String optometristaId,
+            LocalDateTime fechaHora,
+            String motivo,
+            String estado
+    ) {
         this.id = id;
         this.pacienteId = pacienteId;
-        this.doctorId = doctorId;
+        this.optometristaId = optometristaId;
         this.fechaHora = fechaHora;
         this.motivo = motivo;
         this.estado = estado;
     }
 
-    // Getters y Setters
     public String getId() {
         return id;
     }
@@ -45,12 +50,22 @@ public class CitaDTO implements Serializable {
         this.pacienteId = pacienteId;
     }
 
-    public String getDoctorId() {
-        return doctorId;
+    public String getOptometristaId() {
+        return optometristaId;
     }
 
+    public void setOptometristaId(String optometristaId) {
+        this.optometristaId = optometristaId;
+    }
+
+    @Deprecated
+    public String getDoctorId() {
+        return optometristaId;
+    }
+
+    @Deprecated
     public void setDoctorId(String doctorId) {
-        this.doctorId = doctorId;
+        this.optometristaId = doctorId;
     }
 
     public LocalDateTime getFechaHora() {
@@ -79,13 +94,13 @@ public class CitaDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "CitaDTO{" +
-                "id='" + id + '\'' +
-                ", pacienteId='" + pacienteId + '\'' +
-                ", doctorId='" + doctorId + '\'' +
-                ", fechaHora=" + fechaHora +
-                ", motivo='" + motivo + '\'' +
-                ", estado='" + estado + '\'' +
-                '}';
+        return "CitaOptometricaDTO{"
+                + "id='" + id + '\''
+                + ", pacienteId='" + pacienteId + '\''
+                + ", optometristaId='" + optometristaId + '\''
+                + ", fechaHora=" + fechaHora
+                + ", motivo='" + motivo + '\''
+                + ", estado='" + estado + '\''
+                + '}';
     }
 }

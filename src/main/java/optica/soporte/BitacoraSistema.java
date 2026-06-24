@@ -3,9 +3,6 @@ package main.java.optica.model;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/**
- * Atributos 'final' para garantizar la inmutabilidad.
- */
 public class Auditoria {
 
     private final String id;
@@ -51,9 +48,6 @@ public class Auditoria {
         return fechaHora;
     }
 
-    /**
-     * Verifica si el registro pertenece a un módulo específico.
-     */
     public boolean perteneceAlModulo(String moduloBuscado) {
         if (moduloBuscado == null || moduloBuscado.isBlank()) {
             return false;
@@ -62,9 +56,6 @@ public class Auditoria {
         return modulo.equalsIgnoreCase(moduloBuscado.trim());
     }
 
-    /**
-     * Verifica si la operación fue realizada por un usuario.
-     */
     public boolean fueRealizadaPor(String usuarioBuscado) {
         if (usuarioBuscado == null || usuarioBuscado.isBlank()) {
             return false;
@@ -73,9 +64,6 @@ public class Auditoria {
         return usuario.equalsIgnoreCase(usuarioBuscado.trim());
     }
 
-    /**
-     * Devuelve la fecha y hora en un formato más fácil de leer.
-     */
     public String obtenerFechaHoraFormateada() {
         DateTimeFormatter formato =
                 DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -101,3 +89,4 @@ public class Auditoria {
                 + " | Acción: " + operacion;
     }
 }
+
