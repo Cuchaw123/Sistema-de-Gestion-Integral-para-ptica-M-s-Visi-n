@@ -4,6 +4,7 @@ import main.java.optica.model.Auditoria;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Patrón de diseño SINGLETON.
@@ -39,8 +40,38 @@ public class BitacoraSistema {
         return new ArrayList<>(registros); // Copia defensiva
     }
 
-    public int totalRegistros() {
+    public List<Auditoria> buscarPorModulo(String modulo) {
+        if (modulo == null || modulo.isBlank()) {
+            throw new IllegalArgumentException(
+                    "El módulo a buscar es obligatorio."
+            );
+        }
+        return registros.stream()
+                .filter(a -> a.perteneceAlModulo(modulo))
+                .collect(Collectors.toList());
+    }
+
+    public List<Auditoria> buscarPorUsuario(String usuario) {
+        if (usuario == null || usuario.isBlank()) {
+            throw new IllegalArgumentException(
+                    "El usuario a buscar es obligatorio."
+            );
+        }
+        return registros.stream()
+                .filter(a -> a.fueRealizadaPor(usuario))
+                .collect(Collectors.toList());
+    }
+
+    public int obtenerCantidadRegistros() {
         return registros.size();
+    }
+
+    public boolean tieneRegistros() {
+        return !registros.isEmpty();
+    }
+
+    public void limpiar() {
+        registros.clear();
     }
 
     public void imprimirHistorial() {
